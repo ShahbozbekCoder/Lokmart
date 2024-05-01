@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import com.example.theweather.ui.screens.ListItem
 import com.example.theweather.ui.screens.MainCard
 import com.example.theweather.ui.screens.TabLayout
 import com.example.theweather.ui.theme.TheWeatherTheme
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
                 Column {
                     MainCard()
                     TabLayout()
+                    //ListItem()
                 }
 
             }
