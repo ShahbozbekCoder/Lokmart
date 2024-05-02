@@ -54,7 +54,7 @@ fun ListItem(item: WeatherModel) {
                 style = TextStyle(fontSize = 25.sp)
             )
             AsyncImage(
-                model = "https://cdn.weatherapi.com/weather/64x64/day/116.png",
+                model = "https:${item.icon}",
                 contentDescription = "image4",
                 modifier = Modifier
                     .size(35.dp)
