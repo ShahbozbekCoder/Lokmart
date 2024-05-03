@@ -20,6 +20,7 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,16 +34,14 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.theweather.R
 import com.example.theweather.data.WeatherModel
-import com.example.theweather.ui.screens.ListItem
 import com.example.theweather.ui.theme.BlueLight
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@Preview(showBackground = true)
 @Composable
-fun MainCard() {
+fun MainCard(currentDay: MutableState<WeatherModel>) {
 
     Column(
         modifier = Modifier
@@ -68,12 +67,12 @@ fun MainCard() {
                 ) {
                     Text(
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp),
-                        text = "27 april 2024 11:00",
+                        text = currentDay.value.time,
                         style = TextStyle(fontSize = 15.sp),
                         color = Color.White
                     )
                     AsyncImage(
-                        model = "https://cdn.weatherapi.com/weather/64x64/day/116.png",
+                        model = "https:" + currentDay.value.icon,
                         contentDescription = "image2",
                         modifier = Modifier
                             .size(35.dp)
@@ -84,17 +83,17 @@ fun MainCard() {
                     )
                 }
                 Text(
-                    text = "Madrid",
+                    text = currentDay.value.city,
                     style = TextStyle(fontSize = 24.sp),
                     color = Color.White
                 )
                 Text(
-                    text = "23 C",
+                    text = "${currentDay.value.currentTemp.toFloat().toInt()} C",
                     style = TextStyle(fontSize = 65.sp),
                     color = Color.White
                 )
                 Text(
-                    text = "Sunny",
+                    text = currentDay.value.condition,
                     style = TextStyle(fontSize = 16.sp),
                     color = Color.White
                 )
@@ -114,7 +113,9 @@ fun MainCard() {
                         )
                     }
                     Text(
-                        text = "23 C / 16 С",
+                        text = "${
+                            currentDay.value.maxTemp.toFloat().toInt()
+                        } C/${currentDay.value.minTemp.toFloat().toInt()} C",
                         style = TextStyle(fontSize = 16.sp),
                         color = Color.White
                     )
@@ -137,7 +138,7 @@ fun MainCard() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabLayout() {
+fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
     val tabList = listOf("Hours", "Days")
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
@@ -180,30 +181,9 @@ fun TabLayout() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 itemsIndexed(
-                    listOf(
-                        WeatherModel(
-                            "London",
-                            "10:00",
-                            "25 C",
-                            "Sunny",
-                            "//cdn.weatherapi.com/weather/64x64/day/122.png",
-                            "",
-                            "",
-                            ""
-                        ),
-                        WeatherModel(
-                            "London",
-                            "02.05.2024",
-                            "",
-                            "Sunny",
-                            "//cdn.weatherapi.com/weather/64x64/day/122.png",
-                            "30 C",
-                            "16 C",
-                            "08:00, 10:00, 12:00, 14:00, 16:00, 18:00, 20:00, 22:00"
-                        )
-                    )
-                ){
-                    _, item ->  ListItem(item)
+                    daysList.value
+                ) { _, item ->
+                    ListItem(item)
                 }
 
             }
