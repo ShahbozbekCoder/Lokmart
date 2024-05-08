@@ -35,7 +35,8 @@ class MainActivity : ComponentActivity() {
                     mutableStateOf(listOf<WeatherModel>())
                 }
                 val currentDay = remember {
-                    mutableStateOf(WeatherModel(
+                    mutableStateOf(
+                        WeatherModel(
                         "",
                         "",
                         "0.0",
@@ -56,11 +57,12 @@ class MainActivity : ComponentActivity() {
                     contentScale = ContentScale.Crop
                 )
                 Column {
-                    MainCard(currentDay)
-                    TabLayout(daysList)
+                    MainCard(currentDay, onClickSync = {
+                        getData("London", this@MainActivity, daysList, currentDay)
+                    })
+                    TabLayout(daysList, currentDay)
                     //ListItem()
                 }
-
             }
         }
     }
@@ -121,9 +123,5 @@ private fun getWeatherByDays(response: String): List<WeatherModel> {
     )
     return list
 }
-
-
-
-
 
 
