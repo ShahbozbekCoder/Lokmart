@@ -45,7 +45,6 @@ fun MainList(list: List<WeatherModel>, currentDays: MutableState<WeatherModel>) 
     }
 }
 
-
 @Composable
 fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
     Card(
