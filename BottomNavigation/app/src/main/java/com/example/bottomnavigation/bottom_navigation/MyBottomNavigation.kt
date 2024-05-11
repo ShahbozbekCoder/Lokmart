@@ -35,7 +35,7 @@ fun MyBottomNavigation(
                 selected = currentRout == item.route,
                 onClick = {
                     navController.navigate(item.route)
-return@NavigationBarItem
+                    return@NavigationBarItem
                 },
                 icon = {
                     Icon(painter = painterResource(id = item.iconID), contentDescription = "icon1")
